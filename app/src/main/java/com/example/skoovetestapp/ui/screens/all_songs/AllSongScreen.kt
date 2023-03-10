@@ -69,7 +69,7 @@ fun AllSongScreen(
                 showErrorDialog = false
                 errorMessage = ""
             },
-            title = { Text(text = "Error!", style = MaterialTheme.typography.h1) },
+            title = { Text(text = "Error!") },
             text = {
                 Text(
                     text = errorMessage,
@@ -82,6 +82,14 @@ fun AllSongScreen(
                     .clickable {
                         showErrorDialog = false
                         viewModel.onRetryButtonClicked()
+                    }
+                )
+            },
+            dismissButton = {
+                Text(text = "Close", modifier = Modifier
+                    .padding(12.dp)
+                    .clickable {
+                        showErrorDialog = false
                     }
                 )
             }

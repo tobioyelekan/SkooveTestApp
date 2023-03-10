@@ -22,7 +22,7 @@ object DatabaseModule {
 
     @Provides
     @Singleton
-    fun providesRateDao(database: SkooveSongDatabase): SongDataDao {
+    fun providesSongDao(database: SkooveSongDatabase): SongDataDao {
         return database.songDataDao()
     }
 }

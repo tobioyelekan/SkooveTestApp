@@ -18,11 +18,6 @@ class SongRepositoryImpl @Inject constructor(
     override fun getAllSongs(): Flow<Resource<List<SongItem>>> = flow {
         emit(Resource.Loading(true))
 
-        localDataSource.getSongs().collect { dataFlow ->
-            val songItems = dataFlow.map { songMapper.mapEntityToItem(it) }
-            emit(Resource.Success(songItems))
-        }
-
         try {
             val response = remoteDataSource.getSkooveSongs()
             val entities = response.songData.map {
@@ -30,9 +25,18 @@ class SongRepositoryImpl @Inject constructor(
             }
 
             localDataSource.insertASongs(entities)
+
+            localDataSource.getSongs().collect { dataFlow ->
+                val songItems = dataFlow.map { songMapper.mapEntityToItem(it) }
+                emit(Resource.Success(songItems))
+            }
         } catch (e: Exception) {
             Timber.e(e)
             emit(Resource.Error("An error occurred! ${e.message}"))
+            localDataSource.getSongs().collect { dataFlow ->
+                val songItems = dataFlow.map { songMapper.mapEntityToItem(it) }
+                emit(Resource.Success(songItems))
+            }
         }
     }
 
