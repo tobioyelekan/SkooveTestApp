@@ -75,7 +75,7 @@ class AllSongsViewModel @Inject constructor(
                         if (isFavorite) "Song removed as favorite" else "Song added as favorite"
                     _actionEvents.emit(EventActions.ShowMessage(message))
                 }
-                is Resource.Error -> _actionEvents.emit(EventActions.ShowError("Error occurred! ${result.message!!}"))
+                is Resource.Error -> _actionEvents.emit(EventActions.ShowMessage("Error occurred! ${result.message!!}"))
             }
         }
     }
